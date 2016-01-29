@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>João Gabriel Lima</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="jgabriel_lima">
+<meta property="og:type" content="website">
+<meta property="og:title" content="João Gabriel Lima">
+<meta property="og:url" content="http://jgabriellima.github.io/index.html">
+<meta property="og:site_name" content="João Gabriel Lima">
+<meta property="og:description" content="jgabriel_lima">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="João Gabriel Lima">
+<meta name="twitter:description" content="jgabriel_lima">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo" href="/"></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Artigos</a>
+        
+          <a class="main-nav-link" href="/about">Sobre</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://jgabriellima.github.io"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer">
+      <article id="post-OpenStreetMap" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/26/OpenStreetMap/">Angularjs + OpenStreetMap</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/01/26/OpenStreetMap/" class="article-date">
+  <time datetime="2016-01-26T21:43:47.000Z" itemprop="datePublished">2016-01-26</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/AngularJS/">AngularJS</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Para este projeto vamos utilizar o <a href="https://github.com/tombatossals/angular-leaflet-directive" target="_blank" rel="external">angular-leaflet-directive</a>. Diretiva angular para manipulação de mapas OpenStreetMap.<br>Para criar o projeto, vamos executar os seguintes passos:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir angularjs_openstreetmap</span><br><span class="line">$ <span class="built_in">cd</span> angularjs_openstreetmap &amp;&amp; npm init</span><br></pre></td></tr></table></figure>
+<p>Após responder todas as perguntas, será criado um arquivo: package.json</p>
+<p>Seu projeto está criado e configurado, agora precisamos acrescentar a dependência ‘leaflet-directive’. Para isso é necessário executar o segunte comando (partindo do princípio que você já possui o <a href="http://bower.io/" target="_blank" rel="external">bower</a> instalado: </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ bower init </span><br><span class="line">$ bower install angular-leaflet-directive --save</span><br></pre></td></tr></table></figure>
+<p>Antes de comerçarmos vamos entender as dependências do projeto e por que estamos as utilizando.<br>O Leaflet é uma biblioteca open-source na linguagem JavaScript para mapas interativos desenvolvido por <a href="https://github.com/mourner" target="_blank" rel="external">Vladimir Agafonkin</a>, com ele você poderá criar incríveis soluções de mapas totalmente interativos.<br>Sobre o leaflet, temos a diretiva <a href="https://github.com/tombatossals/angular-leaflet-directive" target="_blank" rel="external">angular-leaflet-directive</a> que nos auxiliará com a manipulação e criação do mapa apenas instanciando sua tag html <leaflet></leaflet></p>
+<p>Agora vamos colocar a mão na massa!<br>Primeiro preparamos o html onde o mapa será apresentado:</p>
+<h3 id="index-html"><a href="#index-html" class="headerlink" title="index.html"></a>index.html</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">"utf-8"</span>&gt;</span><br><span class="line">    &lt;meta http-equiv=<span class="string">"X-UA-Compatible"</span> content=<span class="string">"IE=edge"</span>&gt;</span><br><span class="line">    &lt;title&gt;Angularjs + OpenStreetMap&lt;/title&gt;</span><br><span class="line">    &lt;link rel=<span class="string">"stylesheet"</span> href=<span class="string">"bower_components/leaflet/dist/leaflet.css"</span>&gt;</span><br><span class="line">    &lt;script src=<span class="string">"bower_components/angular/angular.min.js"</span>&gt;&lt;/script&gt;</span><br><span class="line">    &lt;script src=<span class="string">"bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.min.js"</span>&gt;&lt;/script&gt;</span><br><span class="line">    &lt;script src=<span class="string">"app.js"</span>&gt;&lt;/script&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body ng-app=<span class="string">"openstreet"</span> ng-controller=<span class="string">"MapController"</span>&gt;</span><br><span class="line">    &lt;leaflet defaults=<span class="string">"map.defaults"</span> markers=<span class="string">"map.markers"</span> center=<span class="string">"map.center"</span> ng-if=<span class="string">"map"</span> style=<span class="string">"width:100%;height:800px"</span>&gt;&lt;/leaflet&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="app-js"><a href="#app-js" class="headerlink" title="app.js"></a>app.js</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">angular.module(<span class="string">"openstreet"</span>, [<span class="string">'leaflet-directive'</span>])</span><br><span class="line">    .controller(<span class="string">'MapController'</span>, <span class="keyword">function</span>(<span class="variable">$scope</span>) &#123;</span><br><span class="line">        <span class="variable">$scope</span>.map = &#123;</span><br><span class="line">            defaults: &#123;</span><br><span class="line">                tileLayer: <span class="string">'http://&#123;s&#125;.tiles.wmflabs.org/bw-mapnik/&#123;z&#125;/&#123;x&#125;/&#123;y&#125;.png'</span>,</span><br><span class="line">                maxZoom: <span class="number">18</span>,</span><br><span class="line">                zoomControlPosition: <span class="string">'topright'</span>,</span><br><span class="line">                color: <span class="string">'#666'</span>,</span><br><span class="line">            &#125;,</span><br><span class="line">            markers: &#123;&#125;,</span><br><span class="line">            center: &#123;&#125;,</span><br><span class="line">            events: &#123;</span><br><span class="line">                map: &#123;</span><br><span class="line">                    <span class="built_in">enable</span>: [<span class="string">'context'</span>],</span><br><span class="line">                    logic: <span class="string">'emit'</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="variable">$scope</span>.center = <span class="keyword">function</span>(lat, lng) &#123;</span><br><span class="line">            <span class="variable">$scope</span>.map.center.lat = lat;</span><br><span class="line">            <span class="variable">$scope</span>.map.center.lng = lng;</span><br><span class="line">            <span class="variable">$scope</span>.map.center.zoom = <span class="number">15</span>;</span><br><span class="line">            <span class="variable">$scope</span>.here = &#123;</span><br><span class="line">                lat: lat,</span><br><span class="line">                lng: lng,</span><br><span class="line">                message: <span class="string">"Você está aqui!"</span>,</span><br><span class="line">                focus: <span class="literal">true</span>,</span><br><span class="line">                draggable: <span class="literal">false</span></span><br><span class="line">            &#125;;</span><br><span class="line">            <span class="variable">$scope</span>.map.markers.now = <span class="variable">$scope</span>.here;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="variable">$scope</span>.center(-<span class="number">1.380229</span>, -<span class="number">48.442365</span>);</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+<p>Esclarecendo o que fizemos até agora!<br>O $scope.map é nosso objeto que representará o mapa, ele contém as propriedades que serão necessárias para gerá-lo.<br>Criei uma função simples chamada de $scope.center(), apenas para ilustrar como você poderá configurar o centro do mapa através de uma função mas tabém poderia declará-la diretamente no objeto $scop.map. </p>
+<p>Existem diversos exemplos interessantes da utilziação dessa diretiva em seu site de <a href="http://tombatossals.github.io/angular-leaflet-directive/#!/examples/simple-map" target="_blank" rel="external">demonstração</a>.</p>
+<p>Espero que tenha gostado deste post!<br>Qualquer dúvida, fale comigo <a href="http://twitter.com/jgabriel_lima" target="_blank" rel="external">@jgabriel_lima</a></p>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/angularjs/">angularjs</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+    </section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 João Gabriel Lima&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+  </div>
+</body>
+</html>
